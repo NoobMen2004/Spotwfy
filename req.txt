@@ -1,0 +1,13 @@
+djangorestframework # работа с фреймворк Django_rest
+djangorestframework-simplejwt # с jwt токенами логин регистрация 
+psycopg2-binary # работа с psql
+pillow # с картинами/изображениями
+python-decouple # сокрытие данных 
+drf-yasg # документация для фронд энд
+django-filter # фильтрация данных
+redis # брокер задач
+celery # таск менеджер
+
+# producer - джанго
+# брокер сообщение - redis
+# worker - celery
