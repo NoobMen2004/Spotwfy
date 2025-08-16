@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     #app
     'account',
     'music',
-
 ]
 
 MIDDLEWARE = [
