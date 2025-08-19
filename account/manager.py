@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.create_activation_code()
-        send_activation_email(user.email, user.activation_code)
+        send_activation_email.delay(user.email, user.activation_code)
         user.save(using=self._db)
         return user
 

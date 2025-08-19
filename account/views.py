@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, redirect
+from rest_framework.permissions import AllowAny
 
 from .serializers import RegisterSerializer, ForgotPasswordSerializer, RestorePasswordSerializer
 from .models import CustomUser
@@ -8,6 +9,7 @@ from .send_email import send_reset_password
 
 
 class RegisterUserView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
