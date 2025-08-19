@@ -141,3 +141,10 @@ SIMPLE_JWT = {
 #celery conect broker settings
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+#media file Settings
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
