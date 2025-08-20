@@ -135,12 +135,12 @@ from datetime import timedelta
 
 #Token settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=99),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 #celery conect broker settings
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 #media file Settings
 STATIC_URL = 'static/'

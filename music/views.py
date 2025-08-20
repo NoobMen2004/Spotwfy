@@ -2,6 +2,8 @@
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import status
 
 
@@ -10,6 +12,7 @@ from .serializer import *
 
 
 class CategoryAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializers = CategorySerializer(data = request.data)
         if serializers.is_valid():
@@ -37,6 +40,7 @@ class CategoryAPIView(APIView):
 
 
 class MusicAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializers = MusicSerializer(data = request.data)
         serializers.is_valid(raise_exception=True)
@@ -44,13 +48,17 @@ class MusicAPIView(APIView):
         return Response(f'{music.title} добвлено.')
     
 
-    def get(self, request):
+    def get(self, request, id=None):
+        if id:
+            music = Music.objects.get(pk=id)
+            serializers = MusicSerializer(music)
+            return Response(serializers.data)
         musics = Music.objects.all()
         serializers = MusicSerializer(musics, many=True)
         return Response(serializers.data)
         
 
-    def put(self, request, id, format=None):
+    def put(self, request, id):
         music = Music.object.get(pk=id)
         serializers = MusicSerializer(music, data = request.data)
         if serializers.is_valid():
@@ -61,13 +69,14 @@ class MusicAPIView(APIView):
                 })
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, id, format=None):
+    def delete(self, request, id):
         music = Music.object.get(pk=id)
         music.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
 class PlayListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         serializer = PlayListSerializer(data=request.data)
         if serializer.is_valid():
@@ -82,7 +91,7 @@ class PlayListAPIView(APIView):
         serializer = PlayListSerializer(list, many=True)
         return Response(serializer.data)
     
-    def put(self, request, id, format=None):
+    def put(self, request, id):
         list = PlayList.object.get(pk=id)
         serializer = PlayListSerializer(list, data=request.data)
         if serializer.is_valid():
