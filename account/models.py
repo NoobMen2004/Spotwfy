@@ -3,7 +3,9 @@ from django.contrib.auth.models import AbstractUser
 
 import uuid
 
-class User(AbstractUser):
+from .manager import UserManager
+
+class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     nickname = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100, blank=True)
@@ -11,13 +13,14 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=300, blank=True)
 
+    objects = UserManager()
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def create_activation_code(self):
         code = str(uuid.uuid4())
-        self.create_activation_code
+        self.activation_code = code
 
     def __str__(self):
-        return self.email
-    
+        return f'{self.email}'
