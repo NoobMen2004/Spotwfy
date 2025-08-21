@@ -15,10 +15,12 @@ class CategorySerializer(serializers.ModelSerializer):
         repr['music'] = self.get_music(instance)
         return repr
 
+
 class MusicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Music
         fields = '__all__'
+        read_only_fields = ['user'] 
 
     def validate_music(self, value):
         valid_file_types = ['audio/mpeg', 'audio/wav', 'audio/ogg']
@@ -35,4 +37,5 @@ class PlayListSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayList
         fields = '__all__'
+        read_only_fields = ['user'] 
         
