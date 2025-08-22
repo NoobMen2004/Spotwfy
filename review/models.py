@@ -16,9 +16,21 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
     music = models.ForeignKey(Music, on_delete=models.CASCADE, related_name='likes')
 
+    class Meta:
+        unique_together = ('user', 'music')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.music.title}"
+
 class Favorite(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorite')
     music = models.ForeignKey(Music, on_delete=models.CASCADE, related_name='favorite')
+
+    class Meta:
+        unique_together = ('user', 'music')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.music.title}"
 
 class Rating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ratings')
@@ -28,3 +40,6 @@ class Rating(models.Model):
 
     class Meta:
         unique_together = ('user', 'music') 
+
+    def __str__(self):
+        return f"{self.user.username} - {self.music.title}"
