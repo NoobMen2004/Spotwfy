@@ -9,7 +9,7 @@ from .manager import UserManager
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    nickname = models.CharField(max_length=100)
+    nickname = models.CharField(max_length=100, default='default_nickname')
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     is_active = models.BooleanField(default=False)
