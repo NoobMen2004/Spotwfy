@@ -1,11 +1,9 @@
-from django.urls import path
-from .views import *
+from rest_framework.routers import DefaultRouter
+from .views import CategoryViewSet, MusicViewSet, PlayListViewSet
 
-urlpatterns = [
-    path('cat/', CategoryAPIView.as_view()),
-    path('cat/<int:id>/', CategoryAPIView.as_view()),
-    path('music/', MusicAPIView.as_view()),
-    path('music/<int:id>/', MusicAPIView.as_view()),
-    path('PlayList/', PlayListAPIView.as_view()),
-    path('PlayList/<int:id>/', PlayListAPIView.as_view()),
-]
+router = DefaultRouter()
+router.register(r'cat', CategoryViewSet, basename='cat')
+router.register(r'music', MusicViewSet, basename='music')
+router.register(r'playlist', PlayListViewSet, basename='playlist')
+
+urlpatterns = router.urls

@@ -1,5 +1,6 @@
 from .models import *
 from rest_framework import serializers
+from django.db.models import Avg, Count
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,11 +17,15 @@ class CategorySerializer(serializers.ModelSerializer):
         return repr
 
 class MusicSerializer(serializers.ModelSerializer):
+    avg_rating = serializers.FloatField(read_only=True)
+    ratings_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Music
         fields = '__all__'
+        read_only_fields = ['user', 'avg_rating', 'ratings_count']
 
-    def validate_music(self, value):
+    def validate_file(self, value):
         valid_file_types = ['audio/mpeg', 'audio/wav', 'audio/ogg']
         if value.content_type not in valid_file_types:
             raise serializers.ValidationError('Только аудио файлы (mp3, wav, ogg) разрешены.')
@@ -35,4 +40,5 @@ class PlayListSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayList
         fields = '__all__'
+        read_only_fields = ['user'] 
         

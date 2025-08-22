@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 import uuid
 
+import settings
+
 from .manager import UserManager
 
 class CustomUser(AbstractUser):
@@ -24,3 +26,12 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f'{self.email}'
+    
+class UserActionLog(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    action = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.email} - {self.action} at {self.timestamp}'
