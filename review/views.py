@@ -12,7 +12,6 @@ class CommentModelViewSet(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-
 class FavoriteModelViewSet(ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer

@@ -7,3 +7,4 @@ drf-yasg # документация для фронд энд
 django-filter # фильтрация данных
 redis # брокер задач
 celery # таск менеджер
+django-redis

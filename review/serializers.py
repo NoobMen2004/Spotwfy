@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Comment, Favorite, Rating
 from music.serializers import MusicSerializer
+from .tasks import update_avg_rating
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
-        fields = ['id', 'music', 'created_at']
+        fields = ['id', 'music']
         read_only_fields = ['user']
 
     def to_representation(self, instance):
@@ -31,15 +32,15 @@ class FavoriteSerializer(serializers.ModelSerializer):
         repr['music'] = MusicSerializer(instance.music).data
         return repr
 
-class RatingSerializer(serializers.ModelSerializer):
-    star = serializers.IntegerField(source='score') 
 
+class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['id', 'music', 'star']
+        fields = ['id', 'music', 'score']
         read_only_fields = ['user']
 
-    def validate_star(self, value):
-        if not 1 <= value <= 5:
-            raise serializers.ValidationError('Рейтинг должен быть от 1 до 5')
-        return value
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        rating = super().create(validated_data)
+        update_avg_rating.delay(rating.music.id)
+        return rating
