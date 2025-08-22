@@ -5,14 +5,14 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Avg, Count
 from django.core.cache import cache
 
-from .permission import IsOwner
+from .permission import IsOwner, IsAdminOrReadOnly
 from .models import Category, Music, PlayList
 from .serializers import CategorySerializer, MusicSerializer, PlayListSerializer
 
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ['title']
     filterset_fields = ['title']

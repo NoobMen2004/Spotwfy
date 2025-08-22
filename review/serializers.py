@@ -34,9 +34,11 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
+    star = serializers.IntegerField(source='score')  # псевдоним
+
     class Meta:
         model = Rating
-        fields = ['id', 'music', 'score']
+        fields = ['id', 'music', 'star']
         read_only_fields = ['user']
 
     def create(self, validated_data):
