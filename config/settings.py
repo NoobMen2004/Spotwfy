@@ -26,10 +26,7 @@ INSTALLED_APPS = [
     #app
     'account',
     'music',
-<<<<<<< HEAD
-=======
     'review',
->>>>>>> Syimyk
 ]
 
 MIDDLEWARE = [
