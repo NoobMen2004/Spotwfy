@@ -34,7 +34,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    star = serializers.IntegerField(source='score')  # псевдоним
+    star = serializers.IntegerField(source='score') 
 
     class Meta:
         model = Rating
